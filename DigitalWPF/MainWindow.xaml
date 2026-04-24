@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DigitalWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        WindowStartupLocation="CenterScreen"
+        Title="Авторизация" Height="450" Width="800">
     <Grid>
-
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
+            <TextBlock Text="ЦИФРОВОЙ ДВОЙНИК ПАЦИЕНТА" FontWeight="Bold" FontSize="16" Margin="0,0,0,20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBox x:Name="LoginBox" Margin="10" />
+            <PasswordBox x:Name="PasswordBox" Margin="10" />
+            <Button x:Name="LogInButton" Click="LogInButton_Click" Content="Войти" Margin="0,20,0,0" Width="100" />
+        </StackPanel>
     </Grid>
 </Window>

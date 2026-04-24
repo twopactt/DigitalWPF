@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DigitalWPF")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6c457a98e836cba4273e7f3a11cc324b111c73f9")]
 [assembly: System.Reflection.AssemblyProductAttribute("DigitalWPF")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DigitalWPF")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
