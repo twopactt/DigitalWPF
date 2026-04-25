@@ -141,3 +141,6 @@ C:\Users\Артём\Desktop\DigitalWPF\DigitalWPF\obj\Debug\net9.0-windows\Digit
 C:\Users\Артём\Desktop\DigitalWPF\DigitalWPF\obj\Debug\net9.0-windows\DigitalWPF.csproj.Up2Date
 C:\Users\Артём\Desktop\DigitalWPF\DigitalWPF\obj\Debug\net9.0-windows\HomeWindow.g.cs
 C:\Users\Артём\Desktop\DigitalWPF\DigitalWPF\obj\Debug\net9.0-windows\HomeWindow.baml
+C:\Users\Артём\Desktop\DigitalWPF\DigitalWPF\obj\Debug\net9.0-windows\App.baml
+C:\Users\Артём\Desktop\DigitalWPF\DigitalWPF\obj\Debug\net9.0-windows\PatientMonitoringWindow.g.cs
+C:\Users\Артём\Desktop\DigitalWPF\DigitalWPF\obj\Debug\net9.0-windows\PatientMonitoringWindow.baml

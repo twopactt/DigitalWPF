@@ -11,6 +11,13 @@ using System.Windows.Shapes;
 using DigitalWPF.DatabaseContext;
 using DigitalWPF.Helpers;
 using DigitalWPF.Statics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
+using Microsoft.EntityFrameworkCore;
 
 namespace DigitalWPF;
 
@@ -34,7 +41,9 @@ public partial class MainWindow : Window
             var login = LoginBox.Text;
             var password = PasswordBox.Password;
 
-            var doctor = _db.Users.Where(d => d.Login == login && d.Password == password).FirstOrDefault();
+            var doctor = _db.Users
+                .Include(u => u.Role)
+                .Where(d => d.Login == login && d.Password == password).FirstOrDefault();
 
             if (doctor == null)
             {
@@ -42,9 +51,15 @@ public partial class MainWindow : Window
                 return;
             }
 
+            if (doctor.Role.Name != "врач" && doctor.Role.Name != "администратор")
+            {
+                _mh.ShowError("Доступ запрещен");
+                return;
+            }
+
             CurrentSession.CurrentDoctor = doctor;
 
-            new HomeWindow().Show();
+            new HomeWindow(doctor).Show();
             this.Close();
         }
         catch (Exception ex)

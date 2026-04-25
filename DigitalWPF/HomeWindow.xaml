@@ -10,8 +10,9 @@
     <Grid>
     <StackPanel Margin="10">
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <TextBlock x:Name="DoctorNameText" VerticalAlignment="Center" Margin="0,0,10,0"/>
-            <TextBlock Text="🔔" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <TextBlock x:Name="UserRoleText" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <TextBlock x:Name="DoctorFullNameText" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <TextBlock x:Name="DoctorDepartmentText" VerticalAlignment="Center" Margin="0,0,10,0"/>
             <Button x:Name="LogoutButton" Click="LogoutButton_Click" Content="Выход" Width="50" Height="30" VerticalAlignment="Center" Margin="0,0,10,0"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
@@ -89,28 +90,26 @@
                                   AutoGenerateColumns="False"
                                   IsReadOnly="True"
                                   SelectionMode="Single"
-                                  Margin="10">
-                                <DataGrid.Columns>
-                                    <DataGridTemplateColumn Header="Фото" Width="50">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Image Source="/Images/logo.png" Width="30" Height="30" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
 
-                                    <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="150" />
+                                  CanUserSortColumns="True"
+                                  CanUserResizeColumns="True"
+                                  EnableRowVirtualization="True"
+                                  ScrollViewer.CanContentScroll="True"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="150" CanUserSort="True" />
                                     <DataGridTextColumn Header="Возраст" Binding="{Binding Age}" Width="70" />
-                                    <DataGridTextColumn Header="Основной диагноз" Binding="{Binding MainDiagnosis}" Width="150" />
-                                    <DataGridTextColumn Header="Последние показатели" Binding="{Binding LastMetrics}" Width="150" />
-                                    <DataGridTextColumn Header="Статус" Binding="{Binding StatusName}" Width="120" />
+                                    <DataGridTextColumn Header="Текущий риск" Binding="{Binding CurrentRisk}" Width="70" />
+                                    <DataGridTextColumn Header="Последний замер" Binding="{Binding LastMeasurement}" Width="70" />
+                                    <DataGridTextColumn Header="Активные назначения" Binding="{Binding ActivePrescriptionsCount}" Width="70" />
+                                    <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120" />
 
                                     <DataGridTemplateColumn Header="Действия" Width="100">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Button Content="👁" Width="25" Margin="2" Tag="{Binding Id}" />
-                                                    <Button Content="📋" Width="25" Margin="2" Tag="{Binding Id}"/>
+                                                    <Button Content="Открыть" Width="50" Margin="2" Tag="{Binding Id}" Click="OpenPatient_Click" />
                                                 </StackPanel>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -150,7 +149,7 @@
                                         <TextBlock Text="Статус назначения" />
                                     </StackPanel>
                                     <StackPanel>
-                                        <TextBox x:Name="PatientText" Margin="0 1" TextChanged="PatientText_TextChanged"/>
+                                        <TextBox x:Name="PatientText" Margin="0 1" />
                                         <ComboBox x:Name="PatientIdComboBox" Text="Выбор пациента" Margin="0 1.4" />
                                         <ComboBox x:Name="MedicationIdComboBox" Text="Выбор препарата" Width="150" Margin="0 1.4"/>
                                         <TextBox x:Name="QuantityText" Margin="0 1"/>
@@ -384,10 +383,49 @@
                     </TabItem.Content>
                 </TabItem>
 
-                <TabItem>
-                    <TabItem.Header>
-                        <TextBlock Text="Отчёты" />
-                    </TabItem.Header>
+                <TabItem Header="Отчёты">
+                    <TabItem.Content>
+                        <StackPanel Margin="20">
+                            
+                            <TextBlock Text="Экспорт данных" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+                            
+                            <!-- Отчёт 1: Пациенты -->
+                            <Border BorderBrush="#ccc" BorderThickness="1" Padding="15" CornerRadius="5" Margin="0,0,0,15">
+                                <StackPanel>
+                                    <TextBlock Text="Отчёт по пациентам" FontWeight="Bold" Margin="0,0,0,10"/>
+                                    <TextBlock Text="Список всех пациентов с текущим риском" Foreground="Gray" Margin="0,0,0,10"/>
+                                    <Button x:Name="ExportPatientsBtn" Content="Экспорт в CSV" Click="ExportPatientsToCsv_Click" Width="150" Height="35"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Отчёт 2: Назначения -->
+                            <Border BorderBrush="#ccc" BorderThickness="1" Padding="15" CornerRadius="5" Margin="0,0,0,15">
+                                <StackPanel>
+                                    <TextBlock Text="Отчёт по назначениям" FontWeight="Bold" Margin="0,0,0,10"/>
+                                    <TextBlock Text="Выполненные и невыполненные назначения" Foreground="Gray" Margin="0,0,0,10"/>
+                                    <Button x:Name="ExportPrescriptionsBtn" Content="Экспорт в CSV" Click="ExportPrescriptionsToCsv_Click" Width="150" Height="35"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Отчёт 3: События за период -->
+                            <Border BorderBrush="#ccc" BorderThickness="1" Padding="15" CornerRadius="5" Margin="0,0,0,15">
+                                <StackPanel>
+                                    <TextBlock Text="Отчёт по событиям" FontWeight="Bold" Margin="0,0,0,10"/>
+                                    <TextBlock Text="События (замеры, назначения, уведомления)" Foreground="Gray" Margin="0,0,0,10"/>
+                                    
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                        <TextBlock Text="Период:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                        <DatePicker x:Name="StartDatePicker" Width="120" Margin="0,0,10,0"/>
+                                        <TextBlock Text="—" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                        <DatePicker x:Name="EndDatePicker" Width="120" Margin="0,0,10,0"/>
+                                    </StackPanel>
+                                    
+                                    <Button x:Name="ExportEventsBtn" Content="Экспорт в CSV" Click="ExportEventsToCsv_Click" Width="150" Height="35"/>
+                                </StackPanel>
+                            </Border>
+                            
+                        </StackPanel>
+                    </TabItem.Content>
                 </TabItem>
                 <TabItem>
                     <TabItem.Header>

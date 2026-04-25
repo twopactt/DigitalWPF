@@ -1,9 +1,24 @@
 ﻿<Application x:Class="DigitalWPF.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:DigitalWPF"
-             StartupUri="MainWindow.xaml">
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:local="clr-namespace:DigitalWPF"
+            StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style x:Key="PatientRowStyle" TargetType="DataGridRow">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RiskLevel}" Value="High">
+                    <Setter Property="Background" Value="#FFE6B3B3" />
+                    <Setter Property="ToolTip" Value="Опасно" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RiskLevel}" Value="Medium">
+                    <Setter Property="Background" Value="#FF9E6B3" />
+                    <Setter Property="ToolTip" Value="Средне опасно" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RiskLevel}" Value="Low">
+                    <Setter Property="Background" Value="#E6F0E6" />
+                    <Setter Property="ToolTip" Value="Не опасно" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources>
 </Application>
